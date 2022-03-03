@@ -1,0 +1,7 @@
+{
+  "name": "cursoJavaIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
