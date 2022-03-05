@@ -32,6 +32,12 @@ const appPages: AppPage[] = [
     mdIcon: people
   },
   {
+    title: 'Empleados',
+    url: '/page/employees',
+    iosIcon: peopleOutline,
+    mdIcon: people
+  },
+  {
     title: 'Outbox',
     url: '/page/Outbox',
     iosIcon: paperPlaneOutline,
