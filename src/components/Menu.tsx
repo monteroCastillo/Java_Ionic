@@ -38,6 +38,12 @@ const appPages: AppPage[] = [
     mdIcon: people
   },
   {
+    title: 'Proveedores',
+    url: '/page/suppliers',
+    iosIcon: peopleOutline,
+    mdIcon: people
+  },
+  {
     title: 'Outbox',
     url: '/page/Outbox',
     iosIcon: paperPlaneOutline,
