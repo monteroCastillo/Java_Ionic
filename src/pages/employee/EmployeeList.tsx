@@ -4,49 +4,36 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ExploreContainer from '../../components/ExploreContainer';
 import Employee from './Employee';
-import { removeEmployee, saveEmployee, searchEmployees } from './EmployeeApi';
+import { removeEmployee, searchEmployees } from './EmployeeApi';
 
 
 const EmployeeList: React.FC = () => {
 
   const { name } = useParams<{ name: string; }>();
-  const [clientes, setClientes] = useState<Employee[]>([]);
+  const [empleados, setEmpleados] = useState<Employee[]>([]);
   const history = useHistory();
 
   useEffect(() =>{
     search();
   }, [history.location.pathname])
 
-  const search = () =>{
+    const search = async() =>{
       
-    let result = searchEmployees();
-    setClientes(result);
+    let result = await searchEmployees();
+    setEmpleados(result);
   }
 
-  const remove = (id:string)=>{
-      removeEmployee(id);
+  const remove = async(id:string)=>{
+      await removeEmployee(id);
       search();
   }
 
-  const pruebaLocalStorage =() => {
-    const ejemplo = {
-        id: '1',
-        firstname: 'Lucas',
-        lastname:'moy',
-        email:'Lucas@gmail.com',
-        phone:'555',
-        address:'avenida 69'
-    }
-    saveEmployee(ejemplo);
-
-  }
-
   const addEmployee = ()=> {
-    history.push('/page/Employee/new');
+    history.push('/page/employee/new');
   }
 
   const editEmployee = (id:string)=> {
-    history.push('/page/Employee/' + id);
+    history.push('/page/employee/' + id);
   }
 
 
@@ -90,19 +77,19 @@ const EmployeeList: React.FC = () => {
         <IonCol>Acciones</IonCol>
       </IonRow>
 
-      {clientes.map((cliente:Employee) =>  
+      {empleados.map((empleado:Employee) =>  
       <IonRow>
-          <IonCol>{cliente.firstname}</IonCol>
-          <IonCol>{cliente.email}</IonCol>
-          <IonCol>{cliente.phone}</IonCol>
-          <IonCol>{cliente.address}</IonCol>
+          <IonCol>{empleado.firstname}</IonCol>
+          <IonCol>{empleado.email}</IonCol>
+          <IonCol>{empleado.phone}</IonCol>
+          <IonCol>{empleado.address}</IonCol>
           <IonCol>
             <IonButton color="primary" fill="clear"
-            onClick={() => editEmployee(String(cliente.id))}>
+            onClick={() => editEmployee(String(empleado.id))}>
                <IonIcon icon={pencil} slot='icon-only'/>
             </IonButton>
             <IonButton color="danger" fill="clear"
-              onClick={() => remove(String(cliente.id))}>
+              onClick={() => remove(String(empleado.id))}>
               <IonIcon icon={close} slot='icon-only'/>
             </IonButton>
           </IonCol>
@@ -112,16 +99,6 @@ const EmployeeList: React.FC = () => {
     </IonGrid>
     </IonCard>
   </IonContent>
-
-
-  <IonButton onClick={pruebaLocalStorage} color="danger" fill="solid">
-                prueba Local storage
-
-            </IonButton>
-
-
-
-
       </IonContent>
     </IonPage>
   );

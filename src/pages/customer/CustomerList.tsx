@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ExploreContainer from '../../components/ExploreContainer';
 import Customer from './Customer';
-import { removeCustomer, saveCustomer, searchCustomers } from './CustomerApi';
+import { removeCustomer, searchCustomers } from './CustomerApi';
 
 
 const CustomerList: React.FC = () => {
@@ -27,19 +27,7 @@ const CustomerList: React.FC = () => {
       await removeCustomer(id);
       search();
   }
-
-  const pruebaLocalStorage =() => {
-    const ejemplo = {
-        id: '1',
-        firstname: 'Lucas',
-        lastname:'moy',
-        email:'Lucas@gmail.com',
-        phone:'555',
-        address:'avenida 69'
-    }
-    saveCustomer(ejemplo);
-
-  }
+ 
 
   const addCustomer = ()=> {
     history.push('/page/customer/new');
@@ -114,15 +102,7 @@ const CustomerList: React.FC = () => {
   </IonContent>
 
 
-  <IonButton onClick={pruebaLocalStorage} color="danger" fill="solid">
-                prueba Local storage
-
-            </IonButton>
-
-
-
-
-      </IonContent>
+        </IonContent>
     </IonPage>
   );
 };

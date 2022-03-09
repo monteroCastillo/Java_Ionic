@@ -4,49 +4,37 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ExploreContainer from '../../components/ExploreContainer';
 import Supplier from './Supplier';
-import { removeSupplier, saveSupplier, searchSuppliers } from './SupplierApi';
+import { removeSupplier, searchSuppliers } from './SupplierApi';
 
 
 const SupplierList: React.FC = () => {
 
   const { name } = useParams<{ name: string; }>();
-  const [clientes, setClientes] = useState<Supplier[]>([]);
+  const [proveedores, setProveedores] = useState<Supplier[]>([]);
   const history = useHistory();
 
   useEffect(() =>{
     search();
   }, [history.location.pathname])
 
-  const search = () =>{
+  const search = async() =>{
       
-    let result = searchSuppliers();
-    setClientes(result);
+    let result = await searchSuppliers();
+    setProveedores(result);
   }
 
   const remove = (id:string)=>{
       removeSupplier(id);
       search();
   }
-
-  const pruebaLocalStorage =() => {
-    const ejemplo = {
-        id: '1',
-        firstname: 'Lucas',
-        lastname:'moy',
-        email:'Lucas@gmail.com',
-        phone:'555',
-        address:'avenida 69'
-    }
-    saveSupplier(ejemplo);
-
-  }
+  
 
   const addSupplier = ()=> {
     history.push('/page/Supplier/new');
   }
 
   const editSupplier = (id:string)=> {
-    history.push('/page/Supplier/' + id);
+    history.push('/page/supplier/' + id);
   }
 
 
@@ -71,12 +59,12 @@ const SupplierList: React.FC = () => {
 
   <IonContent>
       <IonCard>
-        <IonTitle>Gestion de Empleados</IonTitle>
+        <IonTitle>Gestion de Proveedores</IonTitle>
         <IonItem>
             <IonButton onClick={addSupplier} color="primary" fill ="solid" 
             slot = "end" size="default">
                 <IonIcon icon={add}/>
-                Agregar Empleado
+                Agregar Proveedor
             </IonButton>
         </IonItem>
 
@@ -92,21 +80,21 @@ const SupplierList: React.FC = () => {
         <IonCol>Acciones</IonCol>
       </IonRow>
 
-      {clientes.map((cliente:Supplier) =>  
+      {proveedores.map((proveedor:Supplier) =>  
       <IonRow>
-          <IonCol>{cliente.name}</IonCol>
-          <IonCol>{cliente.email}</IonCol>
-          <IonCol>{cliente.phone}</IonCol>
-          <IonCol>{cliente.address}</IonCol>
-          <IonCol>{cliente.web}</IonCol>
-          <IonCol>{cliente.contact}</IonCol>
+          <IonCol>{proveedor.name}</IonCol>
+          <IonCol>{proveedor.email}</IonCol>
+          <IonCol>{proveedor.phone}</IonCol>
+          <IonCol>{proveedor.address}</IonCol>
+          <IonCol>{proveedor.web}</IonCol>
+          <IonCol>{proveedor.contact}</IonCol>
           <IonCol>
             <IonButton color="primary" fill="clear"
-            onClick={() => editSupplier(String(cliente.id))}>
+            onClick={() => editSupplier(String(proveedor.id))}>
                <IonIcon icon={pencil} slot='icon-only'/>
             </IonButton>
             <IonButton color="danger" fill="clear"
-              onClick={() => remove(String(cliente.id))}>
+              onClick={() => remove(String(proveedor.id))}>
               <IonIcon icon={close} slot='icon-only'/>
             </IonButton>
           </IonCol>

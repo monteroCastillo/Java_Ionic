@@ -53,7 +53,7 @@ const App: React.FC = () => {
               <CustomerEdit />              
             </Route>
 
-            <Route path="/page/employee" exact={true} >
+            <Route path="/page/employees" exact={true} >
               <EmployeeList />              
             </Route>
 
@@ -61,12 +61,12 @@ const App: React.FC = () => {
               <EmployeeEdit />              
             </Route>
 
-            <Route path="/page/supplier" exact={true} >
-              <CustomerList />              
+            <Route path="/page/suppliers" exact={true} >
+              <SupplierList />              
             </Route>
 
             <Route path="/page/supplier/:id" exact={true} >
-              <CustomerEdit />              
+              <SupplierEdit />              
             </Route>
 
           </IonRouterOutlet>

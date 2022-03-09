@@ -1,7 +1,7 @@
 import { IonButtons,IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, IonIcon, IonLabel, IonInput } from '@ionic/react';
 import { add, checkmark, close, pencil, save } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import ExploreContainer from '../../components/ExploreContainer';
 import Employee from './Employee';
 import { removeEmployee, saveEmployee, searchEmployeeById, searchEmployees } from './EmployeeApi';
@@ -9,25 +9,30 @@ import { removeEmployee, saveEmployee, searchEmployeeById, searchEmployees } fro
 
 const EmployeeEdit: React.FC = () => {
 
-    const { name, id } = useParams<{ name: string; id: string; }>();
+    const { name } = useParams<{ name: string}>();
     const [employee, setEmployee] = useState<Employee>({});
     const history =useHistory();
   
+    const routeMatch: any = useRouteMatch("/page/employee/:id");
+    const id = routeMatch?.params?.id;
+    
     useEffect(() =>{
       search();
-    }, [])
+    }, [history.location.pathname]) //Para recargar el componente al cambiar de ventana
   
-    const search = () =>{
+    const search = async() =>{
         
-      if(id !== 'new'){
-        let result = searchEmployeeById(id);
+      if(id === 'new'){
+        setEmployee({});
+      }else{
+        let result = await searchEmployeeById(id);
         setEmployee(result);
       }
     }
     
-    const save = ()=>{
+    const save = async()=>{
       
-      saveEmployee(employee);
+      await saveEmployee(employee);
       history.push('/page/employees')
     }
     
@@ -82,10 +87,7 @@ const EmployeeEdit: React.FC = () => {
                 value={employee.phone}></IonInput>
               </IonItem>
             </IonCol>
-          
-
-
-          
+                    
             <IonCol>
               <IonItem>
                 <IonLabel position="stacked">Dirección</IonLabel>
@@ -95,7 +97,13 @@ const EmployeeEdit: React.FC = () => {
             </IonCol>
           </IonRow>
 
-
+          <IonCol>
+              <IonItem>
+                <IonLabel position="stacked">Salario</IonLabel>
+                <IonInput onIonChange={e => employee.salary = Number(e.detail.value)}
+                value={employee.address}></IonInput>
+              </IonItem>
+            </IonCol>
           
           <IonItem>
               <IonButton onClick={save}  color="success" 
@@ -115,3 +123,6 @@ const EmployeeEdit: React.FC = () => {
 };
   
   export default EmployeeEdit;
+
+
+
